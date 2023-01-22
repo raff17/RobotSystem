@@ -3,7 +3,6 @@ import time
 import logging
 import time
 
-
 class Servo():
     MAX_PW = 2500
     MIN_PW = 500

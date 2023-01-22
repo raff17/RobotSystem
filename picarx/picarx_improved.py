@@ -142,7 +142,6 @@ class Picarx(object):
             self.cali_dir_value[motor] = -1
         self.config_flie.set("picarx_dir_motor", self.cali_dir_value)
 
-
     def dir_servo_angle_calibration(self, value):
         self.dir_cal_value = value
         self.config_flie.set("picarx_dir_servo", "%s" % value)
