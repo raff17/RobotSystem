@@ -1,15 +1,15 @@
 from picarx_improved import Picarx
 import atexit
 import time
-import sys
+
 class Maneuvering(object):
     def __init__(self):
         self.px = Picarx()
         #self.px = px
-        self.speed = 80  # speed
+        self.speed = 25  # speed
         self.steering_angle = 5  # default angle
         self.max_angle = 40  # max angle
-        self.pause = 1
+        self.pause = .5
         self.command_wait = 0.25
         atexit.register(self.cleanup)
 
@@ -18,24 +18,39 @@ class Maneuvering(object):
         time.sleep(self.pause)
         self.px.stop()
 
-    def move_back(self):
-        self.px.backward(self.speed)
+    def forward_and_back_with_angles(self):
+        forward_angle = input("insert a forward steering angle between [0-40]: ")
+        Test = 1
+        while Test:
+            if forward_angle.isdigit():
+                forward_angle = forward_angle
+                Test = 2
+            else:
+                forward_angle = input("invalid angle, Try again: ")
+
+        # forward
+        self.px.set_dir_servo_angle(forward_angle)
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
         time.sleep(self.pause)
         self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
 
 
     def menu(self):
         while True:
             print("Control Picar of death!!")
             print("1: Calibrate Steering")
-            print("2: moves back")
+            print("2: forward_and_back_with_angles")
             print("x: Quit")
 
             menu_option = input("select an action or quit: ")
             if menu_option == "1":
                 maneuvering.calibrate_steering()
             elif menu_option == "2":
-                maneuvering.move_back()
+                maneuvering.forward_and_back_with_angles()
             elif menu_option == "x":
                 raise SystemExit
             else:
