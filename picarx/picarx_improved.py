@@ -1,12 +1,11 @@
-# from robot_hat import Pin, PWM, Servo, fileDB
-# from robot_hat import Grayscale_Module, Ultrasonic
-# from robot_hat.utils import reset_mcu
 import time
 import os
 import atexit
+import logging
+from logdecorator import log_on_start, log_on_end, log_on_error
+import sys
+sys.path.append(r'/home/raf/robot-hat/robot_hat')
 
-# reset_mcu()
-# time.sleep(0.2)
 
 try:
     from robot_hat import*
@@ -19,6 +18,7 @@ except ImportError:
         "This computer does not appear to be a PiCar -X system(robot_hat is not present). Shadowing hardware calls "
         "with substitute functions ")
     from sim_robot_hat import*
+time.sleep(0.2)
 
 
 # log for checking debugs
@@ -59,6 +59,7 @@ class Picarx(object):
     # grayscale_pins: 3 adc channels
     # ultrasonic_pins: tring, echo
     # config: path of config file
+    @log_on_start(logging.DEBUG, "starting car!")
     def __init__(self,
                  servo_pins: list = ['P0', 'P1', 'P2'],
                  motor_pins: list = ['D4', 'D5', 'P12', 'P13'],
@@ -148,6 +149,7 @@ class Picarx(object):
         self.config_flie.set("picarx_dir_servo", "%s" % value)
         self.dir_servo_pin.angle(value)
 
+    @log_on_end(logging.DEBUG, "Steering angle = {value}")
 
     def set_dir_servo_angle(self, value):
         self.dir_current_angle = value
@@ -189,7 +191,7 @@ class Picarx(object):
         w = (v / r) * (1 - (t / (2 * R)))
         return abs(w)
 
-
+    @
     def backward(self, speed):
         current_angle = self.dir_current_angle
         if current_angle != 0:
