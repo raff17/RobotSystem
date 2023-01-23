@@ -19,24 +19,16 @@ class Maneuvering(object):
         self.px.stop()
 
     def forward_and_back_with_angles(self):
-        valid = False
-        forward_steer = input("Input forward steering angle: ")
-        while not valid:
-            try:
-                forward_steer = int(forward_steer)
-                valid = True
-            except ValueError:
-                forward_steer = input("Invalid number. Input forward steering angle: ")
-        # forward_angle = input("insert a forward steering angle between [0-40]: ")
-        # while True:
-        #     if forward_angle.isdigit():
-        #         forward_angle = int(forward_angle)
-        #         break
-        #     else:
-        #         forward_angle = input("invalid angle, Try again: ")
+        forward_angle = input("insert a forward steering angle between [0-40]: ")
+        while True:
+            if forward_angle.isdigit():
+                forward_angle = int(forward_angle)
+                break
+            else:
+                forward_angle = input("invalid angle, Try again: ")
 
         # forward
-        self.px.set_dir_servo_angle(forward_steer)
+        self.px.set_dir_servo_angle(forward_angle)
         time.sleep(self.command_wait)
         self.px.forward(self.speed)
         time.sleep(self.pause)

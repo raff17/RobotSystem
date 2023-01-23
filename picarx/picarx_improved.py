@@ -2,6 +2,7 @@ import time
 import os
 import atexit
 import logging
+import numpy as np
 #from logdecorator import log_on_start, log_on_end, log_on_error
 import sys
 sys.path.append(r'/home/raf/robot-hat/robot_hat')
@@ -176,18 +177,18 @@ class Picarx(object):
         self.set_motor_speed(1, speed)
         self.set_motor_speed(2, speed)
 
-    def turn_angle(self, steering_angle, speed):
+    def turn_angle(self, steering_angle):
         """using ackerman angle to find the speed of inner and out wheel
         param: angle of servo motor
         param: speed of motors
         return: speed of inner/other wheel (+/-)"""
-        v = speed  # speed of motors
         L = 9.4  # length from front to back wheels cm
         t = 8.1  # axle distance cm
         r = 2.3  # radius of wheel cm
         di = steering_angle
         R = (L / di) + t / 2
         # speed equation
+        v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed of motors
         w = (v / r) * (1 - (t / (2 * R)))
         return abs(w)
 
