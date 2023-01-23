@@ -1,7 +1,7 @@
 from picarx_improved import Picarx
 import atexit
 import time
-
+import sys
 class Maneuvering(object):
     def __init__(self):
         self.px = Picarx()
@@ -23,11 +23,13 @@ class Maneuvering(object):
         while True:
             print("Welcome to the Picar menu!")
             print("1: Calibrate Steering")
-            print("q: Quit")
+            print("x: Quit")
 
-            menu_option = input("Please select a maneuver or q to quit: ")
-            if menu_option == "0":
+            menu_option = input("select an action or quit: ")
+            if menu_option == "1":
                 maneuvering.calibrate_steering()
+            elif menu_option == "x":
+                raise SystemExit
             else:
                 print("Invalid Selection")
 
