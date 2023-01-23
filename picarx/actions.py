@@ -18,15 +18,23 @@ class Maneuvering(object):
         time.sleep(self.pause)
         self.px.stop()
 
+    def move_back(self):
+        self.px.forward(self.speed)
+        time.sleep(self.pause)
+        self.px.stop()
+
 
     def menu(self):
         while True:
             print("Control Picar of death!!")
             print("1: Calibrate Steering")
+            print("2: moves back")
             print("x: Quit")
 
             menu_option = input("select an action or quit: ")
             if menu_option == "1":
+                maneuvering.calibrate_steering()
+            elif menu_option == "2":
                 maneuvering.calibrate_steering()
             elif menu_option == "x":
                 raise SystemExit
