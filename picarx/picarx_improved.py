@@ -2,7 +2,7 @@ import time
 import os
 import atexit
 import logging
-from logdecorator import log_on_start, log_on_end, log_on_error
+#from logdecorator import log_on_start, log_on_end, log_on_error
 import sys
 sys.path.append(r'/home/raf/robot-hat/robot_hat')
 
@@ -22,11 +22,11 @@ time.sleep(0.2)
 
 
 # log for checking debugs
-logging_format = "%(asctime)s: %( message)s"
-logging.basicConfig(format=logging_format, level=logging.INFO, datefmt ="%H:%M:%S")
+#logging_format = "%(asctime)s: %( message)s"
+#logging.basicConfig(format=logging_format, level=logging.INFO, datefmt ="%H:%M:%S")
 
 #disaplys debugs
-logging.getLogger().setLevel(logging.DEBUG)
+#logging.getLogger().setLevel(logging.DEBUG)
 #
 # # message should be what you want to print
 # logging.debug(message)
@@ -59,7 +59,7 @@ class Picarx(object):
     # grayscale_pins: 3 adc channels
     # ultrasonic_pins: tring, echo
     # config: path of config file
-    @log_on_start(logging.DEBUG, "starting car!")
+    # @log_on_start(logging.DEBUG, "starting car!")
     def __init__(self,
                  servo_pins: list = ['P0', 'P1', 'P2'],
                  motor_pins: list = ['D4', 'D5', 'P12', 'P13'],
@@ -149,7 +149,7 @@ class Picarx(object):
         self.config_flie.set("picarx_dir_servo", "%s" % value)
         self.dir_servo_pin.angle(value)
 
-    @log_on_end(logging.DEBUG, "Steering angle = {value}")
+   # @log_on_end(logging.DEBUG, "Steering angle = {value}")
 
     def set_dir_servo_angle(self, value):
         self.dir_current_angle = value
