@@ -7,7 +7,7 @@ class Maneuvering(object):
         self.px = Picarx()
         #self.px = px
         self.speed = 80  # speed
-        self.steering_angle = 10  # default angle
+        self.steering_angle = 30  #10 default angle
         self.max_angle = 40  # max angle
         self.pause = 1
         self.command_wait = 0.25
