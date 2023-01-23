@@ -35,7 +35,7 @@ class Maneuvering(object):
             if menu_option == "1":
                 maneuvering.calibrate_steering()
             elif menu_option == "2":
-                maneuvering.calibrate_steering()
+                maneuvering.move_back()
             elif menu_option == "x":
                 raise SystemExit
             else:
