@@ -6,7 +6,7 @@ class Maneuvering(object):
     def __init__(self):
         self.px = Picarx()
         #self.px = px
-        self.speed = 20  # speed
+        self.speed = 80  # speed
         self.steering_angle = 10  # default angle
         self.max_angle = 40  # max angle
         self.pause = 1
@@ -21,7 +21,7 @@ class Maneuvering(object):
 
     def menu(self):
         while True:
-            print("Welcome to the Picar menu!")
+            print("Control Picar of death!!")
             print("1: Calibrate Steering")
             print("x: Quit")
 
