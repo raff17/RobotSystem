@@ -192,7 +192,6 @@ class Picarx(object):
         w = (v / r) * (1 - (t / (2 * R)))
         return abs(w)
 
-
     def backward(self, speed):
         current_angle = self.dir_current_angle
         if current_angle != 0:
