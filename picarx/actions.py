@@ -22,6 +22,7 @@ class Maneuvering(object):
         forward_angle = input("insert a forward steering angle between [0-40]: ")
         while True:
             if forward_angle.isdigit():
+                forward_angle = int(forward_angle)
                 break
             else:
                 forward_angle = input("invalid angle, Try again: ")
