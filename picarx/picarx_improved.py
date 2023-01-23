@@ -186,9 +186,9 @@ class Picarx(object):
         t = 8.1  # axle distance cm
         r = 2.3  # radius of wheel cm
         di = steering_angle
-        R = (L / di) + t / 2
+        R = (L / np.tan(di)) + t / 2
         # speed equation
-        v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed of motors
+        v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed
         w = (v / r) * (1 - (t / (2 * R)))
         return abs(w)
 
