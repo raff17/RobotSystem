@@ -19,7 +19,7 @@ class Maneuvering(object):
         self.px.stop()
 
     def move_back(self):
-        self.px.forward(self.speed)
+        self.px.backward(self.speed)
         time.sleep(self.pause)
         self.px.stop()
 
