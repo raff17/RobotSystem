@@ -65,8 +65,6 @@ class Maneuvering(object):
                 maneuvering.forward_and_back_with_angles()
             elif menu_option == "x":
                 raise SystemExit
-            elif menu_option == "r":
-                return
             else:
                 print("Invalid Selection")
 
