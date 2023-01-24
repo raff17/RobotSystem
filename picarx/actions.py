@@ -56,7 +56,6 @@ class Maneuvering(object):
             print("1: Calibrate Steering")
             print("2: forward_and_back_with_angles")
             print("x: Quit")
-            print("r: return")
 
             menu_option = input("select an action or quit: ")
             if menu_option == "1":
