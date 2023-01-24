@@ -188,7 +188,7 @@ class Picarx(object):
         di = steering_angle
         R = (L / np.tan(di)) - t / 2
         # # speed equation
-        v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed
+        v = np.tan(abs(steering_angle)) * t + L / 2  # speed
         w = (v / r) * (1 + (t / (2 * R)))
         return abs(w)
         # scale = (v - L / 2) / v
