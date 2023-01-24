@@ -6,7 +6,6 @@ import string
 class Maneuvering(object):
     def __init__(self):
         self.px = Picarx()
-        #self.px = px
         self.speed = 40  # speed
         self.steering_angle = 5  # default angle
         self.max_angle = 35  # max angle
@@ -169,13 +168,13 @@ class Maneuvering(object):
         # move backwards
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
-        time.sleep(self.pause + .3)
+        time.sleep(self.pause + .4)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
 
-        # move backwards
+        # move forward
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
         self.px.forward(self.speed)
