@@ -45,7 +45,7 @@ class Maneuvering(object):
             time.sleep(self.command_wait)
             self.px.set_dir_servo_angle(0)
             time.sleep(self.command_wait)
-        elif direction.lower() == "left":
+        else:
             self.px.set_dir_servo_angle(-forward_angle)
             time.sleep(self.command_wait)
             self.px.forward(self.speed)
@@ -86,13 +86,34 @@ class Maneuvering(object):
         # move back while turn
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
-        time.sleep(self.pause)
+        time.sleep(1)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
 
         # fix turn and move back
+        if direction.lower() == "right":
+            self.px.set_dir_servo_angle(-35)
+        else:
+            self.px.set_dir_servo_angle(35)
+        time.sleep(self.command_wait)
+        self.px.backward(self.speed)
+        time.sleep(1)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+
+        # move forward
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
+        time.sleep(1)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
 
 
 
