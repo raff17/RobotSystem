@@ -209,6 +209,7 @@ class Maneuvering(object):
             print("1: Calibrate Steering")
             print("2: forward_and_back_with_angles")
             print("3: parallel_park")
+            print("4: k-turn")
             print("x: Quit")
 
             menu_option = input("select an action or quit: ")
@@ -218,6 +219,8 @@ class Maneuvering(object):
                 maneuvering.forward_and_back_with_angles()
             elif menu_option == "3":
                 maneuvering.parallel_park()
+            elif menu_option == "4":
+                maneuvering.k_turn()
             elif menu_option == "x":
                 raise SystemExit
             else:
