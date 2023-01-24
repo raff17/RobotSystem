@@ -92,10 +92,10 @@ class Maneuvering(object):
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
 
-        # move forward
+        # move back
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
-        self.px.forward(self.speed)
+        self.px.backward(self.speed)
         time.sleep(.5)
         self.px.stop()
         time.sleep(self.command_wait)
@@ -109,7 +109,7 @@ class Maneuvering(object):
             self.px.set_dir_servo_angle(35)
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
-        time.sleep(1)
+        time.sleep(.5)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
