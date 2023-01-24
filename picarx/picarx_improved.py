@@ -186,11 +186,15 @@ class Picarx(object):
         t = 8.1  # axle distance cm
         r = 2.3  # radius of wheel cm
         di = steering_angle
-        R = (L / np.tan(di)) - t / 2
-        # speed equation
-        v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed
-        w = (v / r) * (1 - (t / (2 * R)))
-        return abs(w)
+        # R = (L / np.tan(di)) - t / 2
+        # # speed equation
+        # v = np.tan(90 - abs(steering_angle)) * t + L / 2  # speed
+        # w = (v / r) * (1 - (t / (2 * R)))
+        # return abs(w)
+
+        drive_speed = np.tan(90 - abs(steering_angle)) * t + L / 2
+        scale = (drive_speed - L / 2) / drive_speed
+        return abs(scale)
 
     def backward(self, speed):
         current_angle = self.dir_current_angle
