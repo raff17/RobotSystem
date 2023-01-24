@@ -6,7 +6,7 @@ class Maneuvering(object):
     def __init__(self):
         self.px = Picarx()
         #self.px = px
-        self.speed = 25  # speed
+        self.speed = 40  # speed
         self.steering_angle = 5  # default angle
         self.max_angle = 40  # max angle
         self.pause = .5
