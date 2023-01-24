@@ -141,12 +141,6 @@ class Maneuvering(object):
         else:
             self.px.set_dir_servo_angle(-self.max_angle * .8)
 
-        # turns left or right forward
-        if direction.lower() == "right":
-            self.px.set_dir_servo_angle(self.max_angle * .8)
-        else:
-            self.px.set_dir_servo_angle(-self.max_angle * .8)
-
         # move forward while turn
         time.sleep(self.command_wait)
         self.px.forward(self.speed)
