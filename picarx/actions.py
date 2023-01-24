@@ -1,6 +1,7 @@
 from picarx_improved import Picarx
 import atexit
 import time
+import string
 
 class Maneuvering(object):
     def __init__(self):
@@ -20,22 +21,34 @@ class Maneuvering(object):
 
     def forward_and_back_with_angles(self):
         forward_angle = input("insert a forward steering angle between [0-40]: ")
+        direction = input("Left or Right: ")
         while True:
             if forward_angle.isdigit():
                 forward_angle = int(forward_angle)
                 break
+
             else:
                 forward_angle = input("invalid angle, Try again: ")
 
         # forward
-        self.px.set_dir_servo_angle(forward_angle)
-        time.sleep(self.command_wait)
-        self.px.forward(self.speed)
-        time.sleep(self.pause)
-        self.px.stop()
-        time.sleep(self.command_wait)
-        self.px.set_dir_servo_angle(0)
-        time.sleep(self.command_wait)
+        if direction.lower() == "right":
+            self.px.set_dir_servo_angle(forward_angle)
+            time.sleep(self.command_wait)
+            self.px.forward(self.speed)
+            time.sleep(self.pause)
+            self.px.stop()
+            time.sleep(self.command_wait)
+            self.px.set_dir_servo_angle(0)
+            time.sleep(self.command_wait)
+        else:
+            self.px.set_dir_servo_angle(-forward_angle)
+            time.sleep(self.command_wait)
+            self.px.forward(self.speed)
+            time.sleep(self.pause)
+            self.px.stop()
+            time.sleep(self.command_wait)
+            self.px.set_dir_servo_angle(0)
+            time.sleep(self.command_wait)
 
 
     def menu(self):
