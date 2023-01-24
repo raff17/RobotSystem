@@ -144,7 +144,7 @@ class Maneuvering(object):
         # move forward while turn
         time.sleep(self.command_wait)
         self.px.forward(self.speed)
-        time.sleep(.5)
+        time.sleep(1)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
@@ -169,7 +169,7 @@ class Maneuvering(object):
         # move backwards
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
-        time.sleep(.5)
+        time.sleep(1)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
@@ -185,15 +185,6 @@ class Maneuvering(object):
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
 
-        # straighten
-        self.px.set_dir_servo_angle(0)
-        time.sleep(self.command_wait)
-        self.px.forward(self.speed)
-        time.sleep(self.pause*1.5)
-        self.px.stop()
-        time.sleep(self.command_wait)
-        self.px.set_dir_servo_angle(0)
-        time.sleep(self.command_wait)
 
 
 
