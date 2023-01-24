@@ -9,7 +9,7 @@ class Maneuvering(object):
         #self.px = px
         self.speed = 40  # speed
         self.steering_angle = 5  # default angle
-        self.max_angle = 40  # max angle
+        self.max_angle = 35  # max angle
         self.pause = .5
         self.command_wait = 0.25
         atexit.register(self.cleanup)
@@ -20,13 +20,12 @@ class Maneuvering(object):
         self.px.stop()
 
     def forward_and_back_with_angles(self):
-        forward_angle = input("insert a forward steering angle between [0-40]: ")
+        forward_angle = input("insert a forward steering angle between [0-35]: ")
         direction = input("Left or Right: ")
         while True:
             if forward_angle.isdigit():
                 forward_angle = int(forward_angle)
                 break
-
             else:
                 forward_angle = input("invalid angle, Try again: ")
 
@@ -57,6 +56,7 @@ class Maneuvering(object):
             print("1: Calibrate Steering")
             print("2: forward_and_back_with_angles")
             print("x: Quit")
+            print("r: return")
 
             menu_option = input("select an action or quit: ")
             if menu_option == "1":
@@ -65,6 +65,8 @@ class Maneuvering(object):
                 maneuvering.forward_and_back_with_angles()
             elif menu_option == "x":
                 raise SystemExit
+            elif menu_option == "r":
+                return
             else:
                 print("Invalid Selection")
 
