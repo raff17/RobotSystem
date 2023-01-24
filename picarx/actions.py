@@ -80,9 +80,9 @@ class Maneuvering(object):
 
         # turns left or right
         if direction.lower() == "right":
-            self.px.set_dir_servo_angle(30)
+            self.px.set_dir_servo_angle(40)
         else:
-            self.px.set_dir_servo_angle(-30)
+            self.px.set_dir_servo_angle(-40)
         # move back while turn
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
