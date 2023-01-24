@@ -80,9 +80,9 @@ class Maneuvering(object):
 
         # turns left or right
         if direction.lower() == "right":
-            self.px.set_dir_servo_angle(35)
+            self.px.set_dir_servo_angle(self.max_angle)
         else:
-            self.px.set_dir_servo_angle(-35)
+            self.px.set_dir_servo_angle(-self.max_angle)
         # move back while turn
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
@@ -104,9 +104,9 @@ class Maneuvering(object):
 
         # fix turn and move back
         if direction.lower() == "right":
-            self.px.set_dir_servo_angle(-35)
+            self.px.set_dir_servo_angle(-self.max_angle)
         else:
-            self.px.set_dir_servo_angle(35)
+            self.px.set_dir_servo_angle(self.max_angle)
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
         time.sleep(.65)
@@ -125,7 +125,81 @@ class Maneuvering(object):
         self.px.set_dir_servo_angle(0)
         time.sleep(self.command_wait)
 
+    def k_turn(self):
+        direction = input("Left or Right: ")
+        while True:
+            if direction.lower() == "right":
+                break
+            elif direction.lower() == "left":
+                break
+            else:
+                direction = input("invalid direction, Try again: ")
 
+        # direction left or right
+        if direction.lower() == "right":
+            self.px.set_dir_servo_angle(self.max_angle * .8)
+        else:
+            self.px.set_dir_servo_angle(-self.max_angle * .8)
+
+        # turns left or right forward
+        if direction.lower() == "right":
+            self.px.set_dir_servo_angle(self.max_angle * .8)
+        else:
+            self.px.set_dir_servo_angle(-self.max_angle * .8)
+
+        # move forward while turn
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
+        time.sleep(.5)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+
+        # move forward
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
+        time.sleep(.5)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+
+        # opposite direction backwards
+        if direction.lower() == "right":
+            self.px.set_dir_servo_angle(-self.max_angle)
+        else:
+            self.px.set_dir_servo_angle(self.max_angle)
+
+        # move backwards
+        time.sleep(self.command_wait)
+        self.px.backward(self.speed)
+        time.sleep(.5)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+
+        # move backwards
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
+        time.sleep(.5)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+
+        # straighten
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
+        self.px.forward(self.speed)
+        time.sleep(self.pause*1.5)
+        self.px.stop()
+        time.sleep(self.command_wait)
+        self.px.set_dir_servo_angle(0)
+        time.sleep(self.command_wait)
 
 
 
