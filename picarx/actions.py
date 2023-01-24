@@ -70,9 +70,9 @@ class Maneuvering(object):
 
         # starts moving forward
         self.px.set_dir_servo_angle(0)
-        time.sleep(self.command_wait)
+        time.sleep(1)
         self.px.forward(self.speed)
-        time.sleep(self.pause / 2)
+        time.sleep(self.pause)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
