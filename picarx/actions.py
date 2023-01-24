@@ -169,7 +169,7 @@ class Maneuvering(object):
         # move backwards
         time.sleep(self.command_wait)
         self.px.backward(self.speed)
-        time.sleep(self.pause + .2)
+        time.sleep(self.pause + .3)
         self.px.stop()
         time.sleep(self.command_wait)
         self.px.set_dir_servo_angle(0)
