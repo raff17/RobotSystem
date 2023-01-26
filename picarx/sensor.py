@@ -28,19 +28,7 @@ if __name__ == "__main__":
     while True:
         sensor = Sensors("A0","A1","A2")
         print(sensor)
-<<<<<<< HEAD
-#        ssensor = sensor[0]
-#        print(ssensor)
-    # if Sensors("A0") < 200:
-    #     car.set_dir_servo_angle(-20)
-    # if sensor.chn1 < 200:
-    #     car.set_dir_servo_angle(-20)
-    # car.forward()
-    # time.sleep(2)
-    # car.stop()
-=======
 
->>>>>>> 268438a4d9ff23fd7af4d8d90a2cb3b3d81ec28b
 
 
 
