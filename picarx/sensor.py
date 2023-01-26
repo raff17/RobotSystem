@@ -33,7 +33,7 @@ if __name__ == "__main__":
         car.set_dir_servo_angle(30)
     if sensor.read()[2] < 300:
         car.set_dir_servo_angle(-30)
-    car.forward()
+    car.forward(30)
     time.sleep(2)
     car.stop()
 
