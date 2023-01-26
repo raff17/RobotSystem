@@ -29,8 +29,8 @@ if __name__ == "__main__":
         sensor = Sensors("A0","A1","A2")
         print(sensor)
 
-        # ssensor = sensor[0]
-        # print(ssensor)
+    #     ssensor = sensor[0]
+    #     print(ssensor)
     # if Sensors("A0") < 200:
     #     car.set_dir_servo_angle(-20)
     # if sensor.chn1 < 200:
