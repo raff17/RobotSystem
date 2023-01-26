@@ -26,7 +26,7 @@ if __name__ == "__main__":
     car = Picarx()
     sensor = Sensors("A0","A1","A2")
     print(sensor.read())
-    car.set_dir_servo_angle()
+    car.set_dir_servo_angle(forward_angle)
     time.sleep(0.1)
     car.forward(20)
     time.sleep(0.1)
