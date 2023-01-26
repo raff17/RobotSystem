@@ -26,5 +26,6 @@ class Sensors(object):
 if __name__ == "__main__":
     car = Picarx()
     sensor = Sensors("A0","A1","A2")
-    print(sensor.read())
+    while True:
+        print(sensor.read())
 
