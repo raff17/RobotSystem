@@ -27,7 +27,7 @@ if __name__ == "__main__":
     car = Picarx()
     while True:
         sensor = Sensors("A0","A1","A2")
-        print(sensor)
+        print(sensor.read())
 
 
 
