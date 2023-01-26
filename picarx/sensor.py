@@ -28,7 +28,7 @@ if __name__ == "__main__":
     while True:
         sensor = Sensors("A0","A1","A2")
         print(sensor.read())
-
+        print('sensor reading {}'.format(sensor.read()[0]))
 
 
 
