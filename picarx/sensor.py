@@ -28,7 +28,6 @@ if __name__ == "__main__":
     while True:
         sensor = Sensors("A0","A1","A2")
         print(sensor)
-
     #     ssensor = sensor[0]
     #     print(ssensor)
     # if Sensors("A0") < 200:
