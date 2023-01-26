@@ -23,6 +23,7 @@ class Sensors(object):
         adc_value_list.append(self.chn2.read())
         return adc_value_list
 
+
 if __name__ == "__main__":
     car = Picarx()
     while True:
