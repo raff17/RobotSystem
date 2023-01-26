@@ -25,10 +25,16 @@ class Sensors(object):
 
 if __name__ == "__main__":
     car = Picarx()
-    while True:
-        sensor = Sensors("A0","A1","A2")
-        print(sensor.read())
-        print('sensor reading {}'.format(sensor.read()[0]))
+    sensor = Sensors("A0","A1","A2")
+    print(sensor.read())
+    print('sensor reading {}'.format(sensor.read()[0]))
 
+    if sensor.read()[0] < 300:
+        car.set_dir_servo_angle(30)
+    if sensor.read()[2] < 300:
+        car.set_dir_servo_angle(-30)
+    car.forward()
+    time.sleep(2)
+    car.stop()
 
 
