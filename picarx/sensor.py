@@ -30,15 +30,5 @@ if __name__ == "__main__":
         print(sensor)
 
 
-    #     ssensor = sensor[0]
-    #     print(ssensor)
-    # if Sensors("A0") < 200:
-    #     car.set_dir_servo_angle(-20)
-    # if sensor.chn1 < 200:
-    #     car.set_dir_servo_angle(-20)
-    # car.forward()
-    # time.sleep(2)
-    # car.stop()
-
 
 
