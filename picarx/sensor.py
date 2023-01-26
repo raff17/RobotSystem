@@ -25,14 +25,18 @@ class Sensors(object):
 
 if __name__ == "__main__":
     car = Picarx()
-    sensor = Sensors("A0","A1","A2")
-    if sensor.chn0 < 200:
-        car.set_dir_servo_angle(-20)
-    if sensor.chn1 < 200:
-        car.set_dir_servo_angle(-20)
-    car.forward()
-    time.sleep(2)
-    car.stop()
+    while True:
+        sensor = Sensors("A0","A1","A2")
+        print(sensor)
+        ssensor = Sensors("A0")
+        print(ssensor)
+    # if Sensors("A0") < 200:
+    #     car.set_dir_servo_angle(-20)
+    # if sensor.chn1 < 200:
+    #     car.set_dir_servo_angle(-20)
+    # car.forward()
+    # time.sleep(2)
+    # car.stop()
 
 
 
