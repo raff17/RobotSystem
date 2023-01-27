@@ -231,12 +231,12 @@ class Picarx(object):
             turn_speed = self.turn_angle(current_angle)
             # print("power_scale:",power_scale)
             if (current_angle / abs_current_angle) > 0:
-                self.set_motor_speed(1, 1 * speed * turn_speed)
-                self.set_motor_speed(2, -speed)
+                self.set_motor_speed(1, 1 * speed)
+                self.set_motor_speed(2, -speed * turn_speed)
                 # print("current_speed: %s %s"%(1*speed * power_scale, -speed))
             else:
-                self.set_motor_speed(1, speed)
-                self.set_motor_speed(2, -1 * speed * turn_speed)
+                self.set_motor_speed(1, speed * turn_speed)
+                self.set_motor_speed(2, -1 * speed)
                 # print("current_speed: %s %s"%(speed, -1*speed * power_scale))
         else:
             self.set_motor_speed(1, speed)
