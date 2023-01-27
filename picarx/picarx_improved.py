@@ -5,7 +5,7 @@ import logging
 import numpy as np
 #from logdecorator import log_on_start, log_on_end, log_on_error
 import sys
-sys.path.append(r'/home/raf/robot-hat/robot_hat')
+sys.path.append("..")
 
 
 try:
@@ -95,14 +95,18 @@ class Picarx(object):
         for pin in self.motor_speed_pins:
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
+
         # grayscale module init
         # usage: self.grayscale.get_grayscale_data()
         adc0, adc1, adc2 = grayscale_pins
         self.grayscale = Grayscale_Module(adc0, adc1, adc2, reference=1000)
+
         # ultrasonic init
         # usage: distance = self.ultrasonic.read()
         tring, echo = ultrasonic_pins
         self.ultrasonic = Ultrasonic(Pin(tring), Pin(echo))
+
+
         atexit.register(self.stop)
 
     def set_motor_speed(self, motor, speed):
@@ -189,8 +193,9 @@ class Picarx(object):
         R = (L / np.tan(di)) - t / 2
         # # speed equation
         v = np.tan(abs(steering_angle)) * t + L / 2  # speed
-        w = (v / r) * (1 - (t / (2 * R)))
-        return abs(w)
+        # w = (v / r) * (1 - (t / (2 * R)))
+        scale = (v - L / 2) / v
+        return abs(scale)
 
     def backward(self, speed):
         current_angle = self.dir_current_angle
