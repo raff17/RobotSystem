@@ -189,13 +189,16 @@ class Picarx(object):
         L = 9.4  # length from front to back wheels cm
         t = 8.1  # axle distance cm
         r = 2.3  # radius of wheel cm
+        Height = 9.5
+        length = 11.8
         di = steering_angle
         R = (L / np.tan(di)) - t / 2
         # # speed equation
-        v = np.tan(abs(steering_angle)) * t + L / 2  # speed
-        w = (v / r) * (1 - (t / (2 * R)))
-        # scale = (v - L / 2) / v
-        return abs(w)
+        v = np.tan(abs(90 - di)) * Height + length / 2
+        # v = np.tan(abs(90 - di)) * t + L / 2  # speed
+        # w = (v / r) * (1 - (t / (2 * R)))
+        scale = (v - L / 2) / v
+        return abs(scale)
 
     def backward(self, speed):
         current_angle = self.dir_current_angle
@@ -228,12 +231,12 @@ class Picarx(object):
             turn_speed = self.turn_angle(current_angle)
             # print("power_scale:",power_scale)
             if (current_angle / abs_current_angle) > 0:
-                self.set_motor_speed(1, 1 * speed)
-                self.set_motor_speed(2, -speed * turn_speed)
+                self.set_motor_speed(1, 1 * speed * turn_speed)
+                self.set_motor_speed(2, -speed)
                 # print("current_speed: %s %s"%(1*speed * power_scale, -speed))
             else:
-                self.set_motor_speed(1, speed * turn_speed)
-                self.set_motor_speed(2, -1 * speed)
+                self.set_motor_speed(1, speed)
+                self.set_motor_speed(2, -1 * speed * turn_speed)
                 # print("current_speed: %s %s"%(speed, -1*speed * power_scale))
         else:
             self.set_motor_speed(1, speed)
