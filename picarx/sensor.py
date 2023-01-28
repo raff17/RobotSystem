@@ -34,15 +34,15 @@ if __name__ == "__main__":
     print('sensor reading {}'.format(sensor.read()[0]))
     while True:
         print(sensor.read())
-        if sensor.read()[0] > 300:
+        if sensor.read()[0] < 150:
             car.set_dir_servo_angle(-10)
-            car.forward(10)
-        if sensor.read()[2] < 800:
+            car.forward(20)
+        if sensor.read()[2] < 150:
             car.set_dir_servo_angle(10)
-            car.forward(10)
-        if sensor.read()[1] < 800:
+            car.forward(20)
+        if sensor.read()[1] < 150:
             car.set_dir_servo_angle(0)
-            car.forward(10)
+            car.forward(20)
         else:
             car.stop()
 
