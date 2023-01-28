@@ -7,18 +7,24 @@ sys.path.append("..")
 try:
     from robot_hat import *
     from robot_hat import reset_mcu
+
     reset_mcu()
     time.sleep(0.01)
 except ImportError:
-    print("This computer does not appear to be a PiCar-X system (robot_hat is not present). Shadowing hardware calls with substitute functions ")
+    print(
+        "This computer does not appear to be a PiCar-X system (robot_hat is not present). Shadowing hardware calls with substitute functions ")
     from sim_robot_hat import *
 
 
 class Sensors(object):
-    def __init__(self,pin0,pin1,pin2):
+    def __init__(self, pin0, pin1, pin2):
         self.chn0 = ADC(pin0)
         self.chn1 = ADC(pin1)
         self.chn2 = ADC(pin2)
+
+        self.chn0_default = 0
+        self.chn1_default = 0
+        self.chn2_default = 0
 
     def read(self):
         adc_value_list = []
@@ -27,9 +33,72 @@ class Sensors(object):
         adc_value_list.append(self.chn2.read())
         return adc_value_list
 
+
+class Interpreter:
+    def __init__(self, sensitivity: float = 0.5, polarity: bool = True):
+
+        self.sensitivity = max(0, min(sensitivity, 1)) * (1 if polarity else -1)
+
+    def reading_direction(self, readings: list[int], noise_thresh: int = 10):
+        # Add a bit of noise to prevent division by zero errors
+        readings = [x + 1 if x == 0 else x for x in readings]
+        left, middle, right = readings
+
+        # Break early
+        if abs((left - middle) - (right - middle)) < noise_thresh:
+            return 0
+
+        # Calculate the direction to turn
+        if right - left > 0:
+            direction = (middle - right) / (middle + right)
+            direction *= -1
+        else:
+            direction = (middle - left) / (middle + left)
+
+        return direction * self.sensitivity
+
+class Control:
+    """Control interface used to drive the robot in a desired speed and direction."""
+
+    def __init__(self, car: Picarx, scale: float = 100.0) -> None:
+        """
+        Create a new control interface.
+        :param car: car to control
+        :type car: Picarx
+        :param scale: amount to scale the angle inputs by, defaults to 100.0
+        :type scale: float, optional
+        """
+        self.scale = scale
+        self.car = car
+
+    def control(self, angle: float, speed: int = 50) -> None:
+        """
+        Drive the robot at a desired speed and angle.
+        :param angle: turn angle
+        :type angle: float
+        :param speed: speed to drive at, defaults to 50
+        :type speed: int, optional
+        """
+        self.car.drive(speed, angle * self.scale)
+
+    def run(self):
+        b = 1
+
+
 if __name__ == "__main__":
     car = Picarx()
-    sensor = Sensors("A0","A1","A2")
+    sensor = Sensors("A0", "A1", "A2")
+    d_or_w = input("dark or white target?: ")
+    while True:
+        if d_or_w.lower() == "dark":
+            a = 1
+            # set the greater than or less than to flip
+        elif d_or_w.lower() == "white":
+            b = 1
+            # set greater than or less than to flip
+        else:
+            d_or_w = input("invalid target, Try again: ")
+
     print(sensor.read())
     print('sensor reading {}'.format(sensor.read()[0]))
     while True:
@@ -45,9 +114,3 @@ if __name__ == "__main__":
             car.forward(20)
         else:
             car.stop()
-
-
-
-
-
-
