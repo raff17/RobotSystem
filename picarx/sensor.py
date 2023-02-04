@@ -26,6 +26,9 @@ class Sensors(object):
         self.chn1_default = 0
         self.chn2_default = 0
 
+    def calibrate_grayscale(self):
+        self.chn0_default, self.chn1_default, self.chn2_default = self.read()
+
     def read(self):
         adc_value_list = []
         adc_value_list.append(self.chn0.read())
@@ -35,9 +38,12 @@ class Sensors(object):
 
 
 class Interpreter:
-    def __init__(self, sensitivity: float = 0.5, polarity: bool = True):
+    def __init__(self, sensitivity: 0.5, polarity: bool = True):
 
-        self.sensitivity = max(0, min(sensitivity, 1)) * (1 if polarity else -1)
+        if polarity:
+            self.sensitivity = max(0, min(sensitivity, 1)) * 1
+        else:
+            self.sensitivity = max(0, min(sensitivity, 1)) * -1
 
     def reading_direction(self, readings: list[int], noise_thresh: int = 10):
         # Add a bit of noise to prevent division by zero errors
@@ -81,36 +87,34 @@ class Control:
         """
         self.car.drive(speed, angle * self.scale)
 
-    def run(self):
-        b = 1
-
 
 if __name__ == "__main__":
     car = Picarx()
-    sensor = Sensors("A0", "A1", "A2")
-    d_or_w = input("dark or white target?: ")
-    while True:
-        if d_or_w.lower() == "dark":
-            a = 1
-            # set the greater than or less than to flip
-        elif d_or_w.lower() == "white":
-            b = 1
-            # set greater than or less than to flip
-        else:
-            d_or_w = input("invalid target, Try again: ")
-
-    print(sensor.read())
-    print('sensor reading {}'.format(sensor.read()[0]))
-    while True:
-        print(sensor.read())
-        if sensor.read()[0] < 150:
-            car.set_dir_servo_angle(-10)
-            car.forward(20)
-        if sensor.read()[2] < 150:
-            car.set_dir_servo_angle(10)
-            car.forward(20)
-        if sensor.read()[1] < 150:
-            car.set_dir_servo_angle(0)
-            car.forward(20)
-        else:
-            car.stop()
+    # sensor = Sensors("A0", "A1", "A2")
+    # Interpreter(sensor)
+    # d_or_w = input("dark or white target?: ")
+    # while True:
+    #     if d_or_w.lower() == "dark":
+    #         a = 1
+    #         # set the greater than or less than to flip
+    #     elif d_or_w.lower() == "white":
+    #         b = 1
+    #         # set greater than or less than to flip
+    #     else:
+    #         d_or_w = input("invalid target, Try again: ")
+    #
+    # print(sensor.read())
+    # print('sensor reading {}'.format(sensor.read()[0]))
+    # while True:
+    #     print(sensor.read())
+    #     if sensor.read()[0] < 150:
+    #         car.set_dir_servo_angle(-10)
+    #         car.forward(20)
+    #     if sensor.read()[2] < 150:
+    #         car.set_dir_servo_angle(10)
+    #         car.forward(20)
+    #     if sensor.read()[1] < 150:
+    #         car.set_dir_servo_angle(0)
+    #         car.forward(20)
+    #     else:
+    #         car.stop()
