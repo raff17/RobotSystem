@@ -40,9 +40,9 @@ class Sensors(object):
 class Interpreter:
     def __init__(self, sensitivity: 0.5, polarity: bool = True):
 
-        if polarity:
+        if polarity:  # if black follow
             self.sensitivity = max(0, min(sensitivity, 1)) * 1
-        else:
+        else:  # if white follow
             self.sensitivity = max(0, min(sensitivity, 1)) * -1
 
     def reading_direction(self, readings: list[int], noise_thresh: int = 10):
