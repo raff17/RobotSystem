@@ -45,9 +45,15 @@ class Interpreter:
         else:  # if white follow
             self.sensitivity = max(0, min(sensitivity, 1)) * -1
 
-    def reading_direction(self, readings: list[int], noise_thresh: int = 10):
+    def reading_direction(self, readings, noise_thresh: int = 10):
         # Add a bit of noise to prevent division by zero errors
-        readings = [x + 1 if x == 0 else x for x in readings]
+        # p = int(readings)
+        # for x in readings:
+        #     if x == 0:
+        #         readings = x + 1
+        #     else:
+        #         readings = x
+
         left, middle, right = readings
 
         # Break early
@@ -90,8 +96,8 @@ class Control:
 
 if __name__ == "__main__":
     car = Picarx()
-    # sensor = Sensors("A0", "A1", "A2")
-    # Interpreter(sensor)
+    sensor = Sensors("A0", "A1", "A2")
+    Interpreter(sensor)
     # d_or_w = input("dark or white target?: ")
     # while True:
     #     if d_or_w.lower() == "dark":

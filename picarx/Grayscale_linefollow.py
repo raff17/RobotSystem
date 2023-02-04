@@ -12,9 +12,9 @@ def follow_line(scale = 50):
     sensor.calibrate_grayscale()
 
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
-    interpreter = Interpreter()
+    # interpreter = Interpreter()
     car = Picarx()
-    controller = Control(car,scale)
+    # controller = Control(car,scale)
 
     input("Press enter to start")
 
