@@ -7,7 +7,8 @@ from picarx_improved import Picarx
 
 def follow_line(scale=50):
     car = Picarx()
-    sensor = Sensors()
+    sensor = Sensors("A0", "A1", "A2")
+    print(sensor.read())
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
     sensor.calibrate_grayscale()
@@ -26,8 +27,8 @@ def follow_line(scale=50):
 
     input("Press enter to start")
 
-    while (True):
-        controller.control(interpreter.reading_direction(Sensors.read()))
+    while True:
+        controller.control(interpreter.reading_direction(sensor.read()))
         time.sleep(0.1)
 
 
