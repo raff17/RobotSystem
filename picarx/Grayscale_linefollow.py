@@ -27,7 +27,7 @@ def follow_line(scale=50):
     input("Press enter to start")
 
     while (True):
-        controller.control(interpreter.reading_direction(interpreter, Sensors.read()))
+        controller.control(interpreter.reading_direction(Sensors.read(Sensors)))
         time.sleep(0.1)
 
 
