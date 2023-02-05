@@ -230,7 +230,7 @@ class LaneDetector:
                                  curr_steering_angle: float,
                                  new_steering_angle: int,
                                  num_of_lane_lines: int,
-                                 max_angle_deviation_two_lines: int = 5,
+                                 max_angle_deviation_two_lines: int = 2,
                                  max_angle_deviation_one_lane: int = 1):
         """
         Stabilize the steering angle.
