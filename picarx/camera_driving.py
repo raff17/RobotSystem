@@ -303,7 +303,7 @@ def lane_following(resolution=(640,480), framerate=24):
         if angle < 28:
             car.constant_move(10, angle)
         else:
-            car.constant_move(10, angle - 80)
+            car.constant_move(10, angle - 70)
         # Exit if the `esc` key is pressed
         rawCapture.truncate(0)  # Release cache
         k = cv2.waitKey(1) & 0xFF
