@@ -289,6 +289,7 @@ def lane_following(resolution=(640,480), framerate=24):
         segments = detector.detect_line_segments(roi)
         lane_lines = detector.average_slope_intercept(frame, segments)
         angle = detector.compute_steering_angle(frame, lane_lines)
+        print(angle)
         # car.drive(0.3, angle - 90)
         # car.forward(3)
         cv2.imshow("video", edges)
