@@ -295,7 +295,7 @@ def lane_following(resolution=(640, 480), framerate=24):
 
         # car.drive(0.3, angle - 90)
         # car.forward(3)
-        car.constant_move(3, angle)
+        car.constant_move(3, angle - 90)
 
         # Exit if the `esc` key is pressed
         key = cv2.waitKey(1) & 0xFF
