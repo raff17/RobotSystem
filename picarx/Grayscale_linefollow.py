@@ -6,7 +6,7 @@ from picarx_improved import Picarx
 
 
 def follow_line(scale = 50):
-    sensor = Sensors()
+    sensor = Sensors("A0", "A1", "A2")
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
     sensor.calibrate_grayscale()

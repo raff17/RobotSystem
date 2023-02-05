@@ -86,10 +86,11 @@ class Control:
         self.car.constant_move(speed, angle * self.scale)
 
 
-# if __name__ == "__main__":
-#     car = Picarx()
-#     sensor = Sensors("A0", "A1", "A2")
-#     Interpreter(sensor)
+if __name__ == "__main__":
+    car = Picarx()
+    sensor = Sensors("A0", "A1", "A2")
+    print(sensor)
+    # Interpreter(sensor)
     # d_or_w = input("dark or white target?: ")
     # while True:
     #     if d_or_w.lower() == "dark":
