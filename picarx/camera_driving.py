@@ -16,7 +16,7 @@ from picarx_improved import Picarx  # noqa
 class LaneDetector:
     """Interface used to detect lanes on a Picarx."""
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Create a new lane detection interface."""
         ...
 
@@ -66,12 +66,12 @@ class LaneDetector:
         :return: identified lane lines
         :rtype: list[list[list[int]]]
         """
-        lane_lines: list[list[list[int]]] = []
+        lane_lines = []
 
         if line_segments is None:
             return lane_lines
 
-        _, width, _ = frame.shape
+        height, width = frame.shape
         left_fit = []
         right_fit = []
 
@@ -130,6 +130,24 @@ class LaneDetector:
 
         return [[x1, y1, x2, y2]]
 
+    def detect_lane(self, frame):
+
+        edges = self.detect_edges(frame)
+        cropped_edges = self.region_of_interest(edges)
+        line_segments = self.detect_line_segments(cropped_edges)
+        lane_lines = self.average_slope_intercept(frame, line_segments)
+
+        return lane_lines
+
+    def display_lines(self, frame, lines, line_color=(0, 255, 0), line_width=2):
+        line_image = np.zeros_like(frame)
+        if lines is not None:
+            for line in lines:
+                for x1, y1, x2, y2 in line:
+                    cv2.line(line_image, (x1, y1), (x2, y2), line_color, line_width)
+        line_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1)
+        return line_image
+
     def region_of_interest(self, edge):
 
         height, width = edge.shape
@@ -152,6 +170,25 @@ class LaneDetector:
         masked_image = cv2.bitwise_and(edge, mask)
 
         return masked_image
+
+    def display_heading_line(self,frame, steering_angle, line_color=(0, 0, 255), line_width=5 ):
+        heading_image = np.zeros_like(frame)
+        height, width, _ = frame.shape
+
+        # Note: the steering angle of:
+        # 0-89 degree: turn left
+        # 90 degree: going straight
+        # 91-180 degree: turn right
+        steering_angle_radian = steering_angle / 180.0 * math.pi
+        x1 = int(width / 2)
+        y1 = height
+        x2 = int(x1 - height / 2 / math.tan(steering_angle_radian))
+        y2 = int(height / 2)
+
+        cv2.line(heading_image, (x1, y1), (x2, y2), line_color, line_width)
+        heading_image = cv2.addWeighted(frame, 0.8, heading_image, 1, 1)
+
+        return heading_image
 
     def compute_steering_angle(self, frame, lane_lines):
         """
@@ -257,7 +294,8 @@ def lane_following(resolution=(640, 480), framerate=24):
         angle = detector.compute_steering_angle(frame, lane_lines)
 
         # car.drive(0.3, angle - 90)
-        car.forward(3)
+        # car.forward(3)
+        car.constant_move(3, angle)
 
         # Exit if the `esc` key is pressed
         key = cv2.waitKey(1) & 0xFF
