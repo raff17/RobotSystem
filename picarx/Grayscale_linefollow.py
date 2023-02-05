@@ -5,7 +5,7 @@ import time
 from picarx_improved import Picarx
 
 
-def follow_line(scale = 50):
+def follow_line(scale=50):
     sensor = Sensors("A0", "A1", "A2")
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
@@ -18,9 +18,10 @@ def follow_line(scale = 50):
 
     input("Press enter to start")
 
-    while(True):
+    while (True):
         controller.control(Interpreter.reading_direction(sensor.read()))
         time.sleep(0.1)
+
 
 if __name__ == "__main__":
     follow_line()

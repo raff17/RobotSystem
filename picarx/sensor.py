@@ -45,7 +45,7 @@ class Interpreter:
         else:  # if white follow
             self.sensitivity = max(0, min(sensitivity, 1)) * -1
 
-    def reading_direction(self, readings, noise_thresh: int = 10):
+    def reading_direction(self, readings):
         # Add a bit of noise to prevent division by zero errors
         # p = int(readings)
         # for x in readings:
@@ -53,7 +53,7 @@ class Interpreter:
         #         readings = x + 1
         #     else:
         #         readings = x
-
+        noise_thresh = 10
         left, middle, right = readings
 
         # Break early
@@ -86,9 +86,9 @@ class Control:
         self.car.constant_move(speed, angle * self.scale)
 
 
-if __name__ == "__main__":
-    car = Picarx()
-    sensor = Sensors("A0", "A1", "A2")
+# if __name__ == "__main__":
+#     car = Picarx()
+#     sensor = Sensors("A0", "A1", "A2")
     # print(sensor)
     # Interpreter(sensor)
     # d_or_w = input("dark or white target?: ")
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     #     else:
     #         d_or_w = input("invalid target, Try again: ")
     #
-    print(sensor.read())
+    # print(sensor.read())
     # print('sensor reading {}'.format(sensor.read()[0]))
     # while True:
     #     print(sensor.read())
