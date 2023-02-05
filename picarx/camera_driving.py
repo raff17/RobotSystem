@@ -20,14 +20,8 @@ class LaneDetector:
         """Create a new lane detection interface."""
         ...
 
-    def detect_edges(self, frame: cv2.Mat) -> Any:
-        """
-        Detect the edges in the frame.
-        :param frame: camera frame
-        :type frame: cv2.Mat
-        :return: image filtered to display only the edges
-        :rtype: Any
-        """
+    def detect_edges(self, frame):
+
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         lower_blue = np.array([60, 40, 40])
         upper_blue = np.array([150, 255, 255])
@@ -38,7 +32,7 @@ class LaneDetector:
 
         return edges
 
-    def detect_line_segments(self, cropped_edges: cv2.Mat) -> Any:
+    def detect_line_segments(self, cropped_edges):
         """
         Detect the line segments from an image filtered to display only the edges.
         :param cropped_edges: image processed by edge detection algorithm
@@ -62,9 +56,7 @@ class LaneDetector:
 
         return line_segments
 
-    def average_slope_intercept(
-        self, frame: cv2.Mat, line_segments: list[cv2.Mat] | None
-    ) -> list[list[list[int]]]:
+    def average_slope_intercept(self, frame, line_segments):
         """
         Calculate the intercept between line segments.
         :param frame: camera frame
@@ -116,7 +108,7 @@ class LaneDetector:
 
         return lane_lines
 
-    def make_points(self, frame: cv2.Mat, line: np.ndarray) -> list[list[int]]:
+    def make_points(self, frame, line):
         """
         Get a list of points representing the current line segment.
         This will be the start and end points of a line segment.
@@ -138,16 +130,10 @@ class LaneDetector:
 
         return [[x1, y1, x2, y2]]
 
-    def region_of_interest(self, canny: cv2.Mat) -> cv2.Mat:
-        """
-        Get a masked image representing the current region of interest.
-        :param canny: frame to mask
-        :type canny: cv2.Mat
-        :return: masked image
-        :rtype: cv2.Mat
-        """
-        height, width = canny.shape
-        mask = np.zeros_like(canny)
+    def region_of_interest(self, edge):
+
+        height, width = edge.shape
+        mask = np.zeros_like(edge)
 
         # only focus bottom half of the screen
         polygon = np.array(
@@ -163,13 +149,11 @@ class LaneDetector:
         )
 
         cv2.fillPoly(mask, polygon, 255)
-        masked_image = cv2.bitwise_and(canny, mask)
+        masked_image = cv2.bitwise_and(edge, mask)
 
         return masked_image
 
-    def compute_steering_angle(
-        self, frame: cv2.Mat, lane_lines: list[list[list[int]]]
-    ) -> float:
+    def compute_steering_angle(self, frame, lane_lines):
         """
         Calculate the steering angle (degrees) from the frame and lane lines.
         :param frame: current camera frame
@@ -205,14 +189,12 @@ class LaneDetector:
 
         return steering_angle
 
-    def stabilize_steering_angle(
-        self,
-        curr_steering_angle: float,
-        new_steering_angle: int,
-        num_of_lane_lines: int,
-        max_angle_deviation_two_lines: int = 5,
-        max_angle_deviation_one_lane: int = 1,
-    ) -> float:
+    def stabilize_steering_angle(self,
+                                 curr_steering_angle: float,
+                                 new_steering_angle: int,
+                                 num_of_lane_lines: int,
+                                 max_angle_deviation_two_lines: int = 5,
+                                 max_angle_deviation_one_lane: int = 1):
         """
         Stabilize the steering angle.
         This essentially clamps the steering angle to prevent sharp turns.
@@ -250,25 +232,10 @@ class LaneDetector:
         return stabilized_steering_angle
 
 
-def lane_following(
-    config: str,
-    user: str,
-    resolution: tuple[int, int] = (640, 480),
-    framerate: int = 24,
-) -> None:
-    """
-    Loop used to follow lanes detected by the RGB camera.
-    :param config: car configuration file path
-    :type config: str
-    :param user: configuration file user
-    :type user: str
-    :param resolution: camera resolution, defaults to (640, 480)
-    :type resolution: tuple[int, int], optional
-    :param framerate: camera framerate, defaults to 24
-    :type framerate: int, optional
-    """
+def lane_following(resolution=(640, 480), framerate=24):
+
     detector = LaneDetector()
-    car = Picarx(config, user)
+    car = Picarx()
 
     camera = PiCamera()
 
