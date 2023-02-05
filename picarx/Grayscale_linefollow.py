@@ -12,15 +12,15 @@ def follow_line(scale=50):
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
     sensor.calibrate_grayscale()
-    cal = sensor.read()
+    cal = sensor.read()[0]
+    cal2 = sensor.read()[1]
+    cal3 = sensor.read()[2]
     max = []
     max.append(cal)
-    one = max[0]
-    two = max[1]
-    three = max[2]
-
-    print(type(one))
-    print(type(int(one)))
+    max.append(cal2)
+    max.append(cal3)
+    print(cal)
+    print(cal2)
 
     follow = input("Following black? enter [true] to follow white enter [false]")
     while True:
