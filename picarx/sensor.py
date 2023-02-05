@@ -86,7 +86,8 @@ class Control:
         self.car.constant_move(speed, angle * self.scale)
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    print()
 #     car = Picarx()
 #     sensor = Sensors("A0", "A1", "A2")
     # print(sensor)
