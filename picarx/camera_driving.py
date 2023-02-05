@@ -300,7 +300,7 @@ def lane_following(resolution=(640,480), framerate=24):
         if angle > 150:
             angle = 150
         print(angle)
-        if angle == 0:
+        if angle < 28:
             car.constant_move(10, angle)
         else:
             car.constant_move(10, angle - 90)
