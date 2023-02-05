@@ -13,6 +13,7 @@ def follow_line(scale=50):
 
     sensor.calibrate_grayscale()
     cal = sensor.calibrate_grayscale()
+    print(cal)
 
     follow = input("Following black? enter [true] to follow white enter [false]")
     while True:
