@@ -31,7 +31,10 @@ def follow_line(scale=50):
         controller.control(interpreter.reading_direction(sensor.read()))
         if sensor.read()[1] & sensor.read()[0] & sensor.read()[2] < 500:
             car.stop()
+        else:
+            controller.control(interpreter.reading_direction(sensor.read()))
         time.sleep(0.1)
+
 
 
 
