@@ -12,6 +12,7 @@ def follow_line(scale=50):
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
     sensor.calibrate_grayscale()
+    cal = sensor.calibrate_grayscale()
 
     follow = input("Following black? enter [true] to follow white enter [false]")
     while True:
@@ -29,7 +30,7 @@ def follow_line(scale=50):
 
     while True:
         controller.control(interpreter.reading_direction(sensor.read()))
-        if sensor.read()[1] < 100 and sensor.read()[0] < 100 and sensor.read()[2] < 100:
+        if sensor.read()[1] < cal[0] and sensor.read()[0] < cal[1] and sensor.read()[2] < cal[2]:
             car.stop()
         else:
             controller.control(interpreter.reading_direction(sensor.read()))
