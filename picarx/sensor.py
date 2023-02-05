@@ -89,7 +89,7 @@ class Control:
 if __name__ == "__main__":
     car = Picarx()
     sensor = Sensors("A0", "A1", "A2")
-    print(sensor)
+    # print(sensor)
     # Interpreter(sensor)
     # d_or_w = input("dark or white target?: ")
     # while True:
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     #     else:
     #         d_or_w = input("invalid target, Try again: ")
     #
-    # print(sensor.read())
+    print(sensor.read())
     # print('sensor reading {}'.format(sensor.read()[0]))
     # while True:
     #     print(sensor.read())
