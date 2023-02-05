@@ -298,14 +298,16 @@ def lane_following(resolution=(640, 480), framerate=24):
         car.constant_move(3, angle - 90)
         rawCapture.truncate(0)
         # Exit if the `esc` key is pressed
-        key = cv2.waitKey(1) & 0xFF
+        rawCapture.truncate(0)  # Release cache
 
-        if key == 27:
-            cv2.destroyAllWindows()
-            camera.close()
-            car.stop()
-
+        k = cv2.waitKey(1) & 0xFF
+        # 27 is the ESC key, which means that if you press the ESC key to exit
+        if k == 27:
             break
+
+    print('quit ...')
+    cv2.destroyAllWindows()
+    camera.close()
 
 
 if __name__ == "__main__":
