@@ -256,7 +256,8 @@ def lane_following(resolution=(640, 480), framerate=24):
 
         angle = detector.compute_steering_angle(frame, lane_lines)
 
-        car.drive(0.3, angle - 90)
+        # car.drive(0.3, angle - 90)
+        car.forward(3)
 
         # Exit if the `esc` key is pressed
         key = cv2.waitKey(1) & 0xFF
@@ -270,8 +271,4 @@ def lane_following(resolution=(640, 480), framerate=24):
 
 
 if __name__ == "__main__":
-    user = os.popen("echo ${SUDO_USER:-$LOGNAME}").readline().strip()  # nosec
-    home = os.popen(f"getent passwd {user} | cut -d: -f 6").readline().strip()  # nosec
-    config = f"{home}/.config/picar-x/picar-x.conf"
-
-    lane_following(config, user)
+    lane_following()
