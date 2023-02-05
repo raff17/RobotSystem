@@ -14,14 +14,20 @@ from picarx_improved import Picarx  # noqa
 
 
 class LaneDetector:
+    """Interface used to detect lanes on a Picarx."""
 
     def __init__(self) -> None:
         """Create a new lane detection interface."""
         ...
 
-
     def detect_edges(self, frame: cv2.Mat) -> Any:
-
+        """
+        Detect the edges in the frame.
+        :param frame: camera frame
+        :type frame: cv2.Mat
+        :return: image filtered to display only the edges
+        :rtype: Any
+        """
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         lower_blue = np.array([60, 40, 40])
         upper_blue = np.array([150, 255, 255])
@@ -33,7 +39,13 @@ class LaneDetector:
         return edges
 
     def detect_line_segments(self, cropped_edges: cv2.Mat) -> Any:
-
+        """
+        Detect the line segments from an image filtered to display only the edges.
+        :param cropped_edges: image processed by edge detection algorithm
+        :type cropped_edges: cv2.Mat
+        :return: line segments from the image
+        :rtype: Any
+        """
         rho = 1
         angle = np.pi / 180
         min_threshold = 10
@@ -53,7 +65,15 @@ class LaneDetector:
     def average_slope_intercept(
         self, frame: cv2.Mat, line_segments: list[cv2.Mat] | None
     ) -> list[list[list[int]]]:
-
+        """
+        Calculate the intercept between line segments.
+        :param frame: camera frame
+        :type frame: cv2.Mat
+        :param line_segments: list of line segments
+        :type line_segments: list[cv2.Mat] | None
+        :return: identified lane lines
+        :rtype: list[list[list[int]]]
+        """
         lane_lines: list[list[list[int]]] = []
 
         if line_segments is None:
@@ -97,7 +117,17 @@ class LaneDetector:
         return lane_lines
 
     def make_points(self, frame: cv2.Mat, line: np.ndarray) -> list[list[int]]:
-
+        """
+        Get a list of points representing the current line segment.
+        This will be the start and end points of a line segment.
+        :param frame: camera frame; used to determine the position of the line in the
+            frame space.
+        :type frame: cv2.Mat
+        :param line: line whose points should be obtained
+        :type line: np.ndarray
+        :return: start and end points for the line using the camera frame dimensions
+        :rtype: list[list[int]]
+        """
         height, width, _ = frame.shape
         slope, intercept = line
         y1 = height
@@ -109,7 +139,13 @@ class LaneDetector:
         return [[x1, y1, x2, y2]]
 
     def region_of_interest(self, canny: cv2.Mat) -> cv2.Mat:
-
+        """
+        Get a masked image representing the current region of interest.
+        :param canny: frame to mask
+        :type canny: cv2.Mat
+        :return: masked image
+        :rtype: cv2.Mat
+        """
         height, width = canny.shape
         mask = np.zeros_like(canny)
 
@@ -134,7 +170,15 @@ class LaneDetector:
     def compute_steering_angle(
         self, frame: cv2.Mat, lane_lines: list[list[list[int]]]
     ) -> float:
-
+        """
+        Calculate the steering angle (degrees) from the frame and lane lines.
+        :param frame: current camera frame
+        :type frame: cv2.Mat
+        :param lane_lines: detected lane lines
+        :type lane_lines: list[list[list[int]]]
+        :return: calculated steering angle
+        :rtype: float
+        """
         if len(lane_lines) == 0:
             return -90
 
@@ -169,7 +213,24 @@ class LaneDetector:
         max_angle_deviation_two_lines: int = 5,
         max_angle_deviation_one_lane: int = 1,
     ) -> float:
-
+        """
+        Stabilize the steering angle.
+        This essentially clamps the steering angle to prevent sharp turns.
+        :param curr_steering_angle: current steering angle
+        :type curr_steering_angle: float
+        :param new_steering_angle: new steering angle to drive at
+        :type new_steering_angle: int
+        :param num_of_lane_lines: number of line lanes
+        :type num_of_lane_lines: int
+        :param max_angle_deviation_two_lines: maximum deviation between the two angles,
+            defaults to 5
+        :type max_angle_deviation_two_lines: int, optional
+        :param max_angle_deviation_one_lane: maximum angle deviation in a lane,
+            defaults to 1
+        :type max_angle_deviation_one_lane: int, optional
+        :return: stabilized steering angle
+        :rtype: float
+        """
         if num_of_lane_lines == 2:
             # if both lane lines detected, then we can deviate more
             max_angle_deviation = max_angle_deviation_two_lines
@@ -195,7 +256,17 @@ def lane_following(
     resolution: tuple[int, int] = (640, 480),
     framerate: int = 24,
 ) -> None:
-
+    """
+    Loop used to follow lanes detected by the RGB camera.
+    :param config: car configuration file path
+    :type config: str
+    :param user: configuration file user
+    :type user: str
+    :param resolution: camera resolution, defaults to (640, 480)
+    :type resolution: tuple[int, int], optional
+    :param framerate: camera framerate, defaults to 24
+    :type framerate: int, optional
+    """
     detector = LaneDetector()
     car = Picarx(config, user)
 
@@ -206,6 +277,8 @@ def lane_following(
 
     raw = PiRGBArray(camera, size=resolution)
 
+    # Continuously capture camera frames from the feed and process them for lane
+    # following
     for frame in camera.capture_continuous(raw, format="bgr", use_video_port=True):
         frame = frame.array
 
@@ -221,7 +294,7 @@ def lane_following(
         # Exit if the `esc` key is pressed
         key = cv2.waitKey(1) & 0xFF
 
-        if key == 28:
+        if key == 27:
             cv2.destroyAllWindows()
             camera.close()
             car.stop()
