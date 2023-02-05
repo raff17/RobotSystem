@@ -19,8 +19,7 @@ def follow_line(scale=50):
     max.append(cal)
     max.append(cal2)
     max.append(cal3)
-    print(cal)
-    print(cal2)
+    print(max)
 
     follow = input("Following black? enter [true] to follow white enter [false]")
     while True:
