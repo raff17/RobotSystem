@@ -6,6 +6,7 @@ from picarx_improved import Picarx
 
 
 def follow_line(scale=50):
+    car = Picarx()
     sensor = Sensors()
     input("Press enter to calibrate grayscale, make sure all sensors are on black")
 
@@ -21,7 +22,6 @@ def follow_line(scale=50):
             follow = input("invalid color, Try again: ")
 
     interpreter = Interpreter(polarity=follow)
-    car = Picarx()
     controller = Control(car, scale)
 
     input("Press enter to start")
