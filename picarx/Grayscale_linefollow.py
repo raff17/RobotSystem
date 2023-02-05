@@ -32,7 +32,7 @@ def follow_line(scale=50):
     input("Press enter to start")
 
     while True:
-        if sensor.read()[1] < max[0] and sensor.read()[0] < max[1] and sensor.read()[2] < max[2]:
+        if sensor.read()[1] < int(max[0]) and sensor.read()[0] < int(max[1]) and sensor.read()[2] < int(max[2]):
             car.stop()
         else:
             controller.control(interpreter.reading_direction(sensor.read()))
