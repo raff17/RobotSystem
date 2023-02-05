@@ -275,7 +275,7 @@ def lane_following(resolution=(640, 480), framerate=24):
     car = Picarx()
 
     camera = PiCamera()
-
+    rawCapture = PiRGBArray(camera, size=camera.resolution)
     camera.resolution = resolution
     camera.framerate = framerate
 
@@ -296,7 +296,7 @@ def lane_following(resolution=(640, 480), framerate=24):
         # car.drive(0.3, angle - 90)
         # car.forward(3)
         car.constant_move(3, angle - 90)
-
+        rawCapture.truncate(0)
         # Exit if the `esc` key is pressed
         key = cv2.waitKey(1) & 0xFF
 
