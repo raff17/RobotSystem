@@ -15,7 +15,12 @@ def follow_line(scale=50):
     cal = sensor.read()
     max = []
     max.append(cal)
-    print(max)
+    one = max[0]
+    two = max[1]
+    three = max[2]
+
+    print(type(one))
+    print(type(int(one)))
 
     follow = input("Following black? enter [true] to follow white enter [false]")
     while True:
