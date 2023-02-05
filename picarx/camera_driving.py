@@ -223,7 +223,7 @@ class LaneDetector:
                                  new_steering_angle: int,
                                  num_of_lane_lines: int,
                                  max_angle_deviation_two_lines: int = 8,
-                                 max_angle_deviation_one_lane: int = 1):
+                                 max_angle_deviation_one_lane: int = 2):
         """
         Stabilize the steering angle.
         This essentially clamps the steering angle to prevent sharp turns.
