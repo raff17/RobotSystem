@@ -29,7 +29,11 @@ def follow_line(scale=50):
 
     while True:
         controller.control(interpreter.reading_direction(sensor.read()))
+        if sensor.read()[1] & sensor.read()[0] & sensor.read()[2] < 500:
+            car.stop()
         time.sleep(0.1)
+
+
 
 
 if __name__ == "__main__":
