@@ -294,7 +294,13 @@ def lane_following(resolution=(640,480), framerate=24):
         # car.forward(3)
         cv2.imshow("video", edges)
         cv2.imshow("mask", roi)
-        car.constant_move(10, (angle - 90))
+        if angle < 0:
+            angle = 28
+
+        if angle == 0:
+            car.constant_move(10, angle)
+        else:
+            car.constant_move(10, angle - 90)
         # Exit if the `esc` key is pressed
         rawCapture.truncate(0)  # Release cache
         k = cv2.waitKey(1) & 0xFF
