@@ -2,7 +2,7 @@ import math
 import os
 import sys
 from typing import Any
-
+import time
 import cv2
 import numpy as np
 from picamera import PiCamera
@@ -269,37 +269,31 @@ class LaneDetector:
         return stabilized_steering_angle
 
 
-def lane_following(resolution=(640, 480), framerate=24):
-
+def lane_following(resolution=(640,480), framerate=24):
+    print("start color detect")
     detector = LaneDetector()
     car = Picarx()
 
     camera = PiCamera()
-    rawCapture = PiRGBArray(camera, size=camera.resolution)
     camera.resolution = resolution
     camera.framerate = framerate
-
-    raw = PiRGBArray(camera, size=resolution)
-
+    rawCapture = PiRGBArray(camera, size=camera.resolution)
+    time.sleep(2)
     # Continuously capture camera frames from the feed and process them for lane
     # following
-    for frame in camera.capture_continuous(raw, format="bgr", use_video_port=True):
+    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
         frame = frame.array
 
         edges = detector.detect_edges(frame)
         roi = detector.region_of_interest(edges)
         segments = detector.detect_line_segments(roi)
         lane_lines = detector.average_slope_intercept(frame, segments)
-
         angle = detector.compute_steering_angle(frame, lane_lines)
-
         # car.drive(0.3, angle - 90)
         # car.forward(3)
         car.constant_move(3, angle - 90)
-        rawCapture.truncate(0)
         # Exit if the `esc` key is pressed
         rawCapture.truncate(0)  # Release cache
-
         k = cv2.waitKey(1) & 0xFF
         # 27 is the ESC key, which means that if you press the ESC key to exit
         if k == 27:
