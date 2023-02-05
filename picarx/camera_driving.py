@@ -71,7 +71,7 @@ class LaneDetector:
         if line_segments is None:
             return lane_lines
 
-        height, width = frame.shape
+        height, width, _ = frame.shape
         left_fit = []
         right_fit = []
 
