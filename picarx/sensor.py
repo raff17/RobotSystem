@@ -38,7 +38,7 @@ class Sensors(object):
 
 
 class Interpreter:
-    def __init__(self, sensitivity: 0.5, polarity: bool = True):
+    def __init__(self, sensitivity=0.5, polarity=True):
 
         if polarity:  # if black follow
             self.sensitivity = max(0, min(sensitivity, 1)) * 1

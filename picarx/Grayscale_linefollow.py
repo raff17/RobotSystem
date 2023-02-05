@@ -11,15 +11,23 @@ def follow_line(scale=50):
 
     sensor.calibrate_grayscale()
 
-    input("Press enter to calibrate grayscale, make sure all sensors are on black")
-    # interpreter = Interpreter()
+    follow = input("Following black? enter [true] to follow white enter [false]")
+    while True:
+        if follow.lower() == "true":
+            break
+        elif follow.lower() == "false":
+            break
+        else:
+            follow = input("invalid color, Try again: ")
+
+    interpreter = Interpreter(polarity=follow)
     car = Picarx()
     controller = Control(car, scale)
 
     input("Press enter to start")
 
     while (True):
-        controller.control(Interpreter.reading_direction(sensor.read()))
+        controller.control(interpreter.reading_direction(interpreter, Sensors.read()))
         time.sleep(0.1)
 
 
