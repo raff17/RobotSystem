@@ -30,7 +30,7 @@ def follow_line(scale=50):
 
     while True:
         controller.control(interpreter.reading_direction(sensor.read()))
-        if sensor.read()[1] < cal[0] and sensor.read()[0] < cal[1] and sensor.read()[2] < cal[2]:
+        if sensor.read()[1] < 0 and sensor.read()[0] < 0 and sensor.read()[2] < 0:
             car.stop()
         else:
             controller.control(interpreter.reading_direction(sensor.read()))
