@@ -26,6 +26,9 @@ class Sensors(object):
         self.chn1_default = 0
         self.chn2_default = 0
 
+    def calibrate_grayscale(self):
+        self.chn0_default, self.chn1_default, self.chn2_default = self.read()
+
     def read(self):
         adc_value_list = []
         adc_value_list.append(self.chn0.read())
@@ -35,13 +38,22 @@ class Sensors(object):
 
 
 class Interpreter:
-    def __init__(self, sensitivity: float = 0.5, polarity: bool = True):
+    def __init__(self, sensitivity=0.5, polarity=True):
 
-        self.sensitivity = max(0, min(sensitivity, 1)) * (1 if polarity else -1)
+        if polarity:  # if black follow
+            self.sensitivity = max(0, min(sensitivity, 1)) * 1
+        else:  # if white follow
+            self.sensitivity = max(0, min(sensitivity, 1)) * -1
 
-    def reading_direction(self, readings: list[int], noise_thresh: int = 10):
+    def reading_direction(self, readings):
         # Add a bit of noise to prevent division by zero errors
-        readings = [x + 1 if x == 0 else x for x in readings]
+        # p = int(readings)
+        # for x in readings:
+        #     if x == 0:
+        #         readings = x + 1
+        #     else:
+        #         readings = x
+        noise_thresh = 10
         left, middle, right = readings
 
         # Break early
@@ -60,57 +72,49 @@ class Interpreter:
 class Control:
     """Control interface used to drive the robot in a desired speed and direction."""
 
-    def __init__(self, car: Picarx, scale: float = 100.0) -> None:
-        """
-        Create a new control interface.
-        :param car: car to control
-        :type car: Picarx
-        :param scale: amount to scale the angle inputs by, defaults to 100.0
-        :type scale: float, optional
-        """
+    def __init__(self, car: Picarx, scale):
+
         self.scale = scale
         self.car = car
 
-    def control(self, angle: float, speed: int = 50) -> None:
+    def control(self, angle, speed=30):
         """
         Drive the robot at a desired speed and angle.
         :param angle: turn angle
-        :type angle: float
         :param speed: speed to drive at, defaults to 50
-        :type speed: int, optional
         """
-        self.car.drive(speed, angle * self.scale)
-
-    def run(self):
-        b = 1
+        self.car.constant_move(speed, angle * self.scale)
 
 
 if __name__ == "__main__":
-    car = Picarx()
-    sensor = Sensors("A0", "A1", "A2")
-    d_or_w = input("dark or white target?: ")
-    while True:
-        if d_or_w.lower() == "dark":
-            a = 1
-            # set the greater than or less than to flip
-        elif d_or_w.lower() == "white":
-            b = 1
-            # set greater than or less than to flip
-        else:
-            d_or_w = input("invalid target, Try again: ")
-
-    print(sensor.read())
-    print('sensor reading {}'.format(sensor.read()[0]))
-    while True:
-        print(sensor.read())
-        if sensor.read()[0] < 150:
-            car.set_dir_servo_angle(-10)
-            car.forward(20)
-        if sensor.read()[2] < 150:
-            car.set_dir_servo_angle(10)
-            car.forward(20)
-        if sensor.read()[1] < 150:
-            car.set_dir_servo_angle(0)
-            car.forward(20)
-        else:
-            car.stop()
+    print()
+#     car = Picarx()
+#     sensor = Sensors("A0", "A1", "A2")
+    # print(sensor)
+    # Interpreter(sensor)
+    # d_or_w = input("dark or white target?: ")
+    # while True:
+    #     if d_or_w.lower() == "dark":
+    #         a = 1
+    #         # set the greater than or less than to flip
+    #     elif d_or_w.lower() == "white":
+    #         b = 1
+    #         # set greater than or less than to flip
+    #     else:
+    #         d_or_w = input("invalid target, Try again: ")
+    #
+    # print(sensor.read())
+    # print('sensor reading {}'.format(sensor.read()[0]))
+    # while True:
+    #     print(sensor.read())
+    #     if sensor.read()[0] < 150:
+    #         car.set_dir_servo_angle(-10)
+    #         car.forward(20)
+    #     if sensor.read()[2] < 150:
+    #         car.set_dir_servo_angle(10)
+    #         car.forward(20)
+    #     if sensor.read()[1] < 150:
+    #         car.set_dir_servo_angle(0)
+    #         car.forward(20)
+    #     else:
+    #         car.stop()
