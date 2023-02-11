@@ -1,4 +1,5 @@
 from picarx_improved import Picarx
+from readerwriterlock import rwlock
 import time
 import sys
 
@@ -15,6 +16,9 @@ except ImportError:
         "This computer does not appear to be a PiCar-X system (robot_hat is not present). Shadowing hardware calls with substitute functions ")
     from sim_robot_hat import *
 
+class buss:
+    def __init__(self):
+        c = 1
 
 class Sensors(object):
     def __init__(self, pin0, pin1, pin2):
