@@ -1,5 +1,4 @@
-import threading
-from typing import Any
+from readerwriterlock import rwlock
 
 
 class Bus:
@@ -7,23 +6,14 @@ class Bus:
 
     def __init__(self) -> None:
         """Create a new bus."""
-        self.message = None
-        self._lock = threading.Lock()
+        self.msg = None
+        self.lock = rwlock.RWLockWriteD()
 
-    def read(self) -> Any:
-        """
-        Get the bus message.
-        :return: current message stored in the bus
-        :rtype: Any
-        """
-        with self._lock:
-            return self.message
+    def read(self):
+        with self.lock.gen_rlock():
+            msg = self.msg
+        return msg
 
-    def write(self, msg: Any) -> None:
-        """
-        Write a new message to the bus.
-        :param msg: message to write
-        :type msg: Any
-        """
-        with self._lock:
+    def write(self, msg):
+        with self.lock.gen_wlock():
             self.message = msg
