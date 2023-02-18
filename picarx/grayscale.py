@@ -1,5 +1,4 @@
 import time
-import statistics
 from RosRos import Bus
 from picarx_improved import Picarx
 
