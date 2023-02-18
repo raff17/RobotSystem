@@ -35,6 +35,8 @@ class Grayscale_Sensor:
         max.append(cal3)
         return max
 
+    input("Press enter to calibrate grayscale, make sure all sensors are on black")
+
     def calibrate_grayscale(self):
         self.chn0_default, self.chn1_default, self.chn2_default = self.read()
 
