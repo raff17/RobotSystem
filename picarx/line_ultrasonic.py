@@ -22,7 +22,7 @@ def follow_line():
     us_controller = ultrasonic.Control(car=car, speed=20)
 
     termination_bus = Bus()
-    input("Press 'enter' to calibrate the sensor")
+    input("Press enter to calibrate")
     gs_sensor.calibrate_grayscale()
 
     # Construct the sensor interfaces
@@ -64,7 +64,7 @@ def follow_line():
 
     # sensor.calibrate()
 
-    input("Press 'enter' to start line following")
+    input("Press enter to follow line")
 
     runConcurrently(
         [gs_prod, gs_prod_cons, gs_cons, us_prod, us_prod_cons, us_cons, timer]
